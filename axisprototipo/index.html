@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>α — Protótipo</title>
+  <title>Axis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,15 +53,24 @@
     .nav-inner {
       max-width: 900px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 20px;
     }
     .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none; transition: opacity 0.3s;
       font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem; color: var(--text-primary); text-decoration: none;
+      font-size: 1.4rem; color: var(--text-primary);
+    }
+    .nav-logo:hover { opacity: 0.8; }
+    .logo-img {
+      height: 40px; width: auto; max-width: 150px;
+      display: block; object-fit: contain;
     }
     .nav-links { display: flex; gap: 2rem; }
     .nav-links a {
       font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
       color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+      margin-left: 20px;
     }
     .nav-links a:hover { color: var(--text-primary); }
     .nav-toggle {
@@ -218,50 +227,17 @@
       .tela-item { width: 80px; }
       .tela-item.destaque { width: 96px; }
     }
-   
-  .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-
-  .logo-img {
-    height: 40px;
-    width: auto;
-    max-width: 150px;
-    display: block;
-    object-fit: contain;
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: opacity 0.3s;
-  }
-
-  .nav-logo:hover {
-    opacity: 0.8;
-  }
-
-  .nav-links a {
-    text-decoration: none;
-    color: inherit;
-    margin-left: 20px;
-  }
   </style>
 </head>
 <body>
 
   <!-- NAVBAR -->
   <nav>
-  <div class="nav-inner">
-    <a class="nav-logo" href="#">
-      <img src="img/logoaxis.png" alt="AXIS Logo" class="logo-img">
-    </a> 
-
-    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <img src="img/logoaxis.png" alt="AXIS Logo" class="logo-img">
+      </a>
+      <!-- CORRIGIDO: removido o botão hambúrguer duplicado -->
       <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
       <div class="nav-links">
         <a href="#boasvindas">Boas-vindas</a>
@@ -281,10 +257,7 @@
     <p>Veja cada tela do app, do primeiro acesso à divisão de gastos com o grupo.</p>
   </section>
 
-  <!--  01 — BOAS-VINDAS
-       Splash + Welcome 1 ao 5 = 6 telas
-       Slide 1: Splash, Welcome 1, Welcome 2
-       Slide 2: Welcome 3, Welcome 4, Welcome 5  -->
+  <!--  01 — BOAS-VINDAS -->
   <section class="secao" id="boasvindas">
     <div class="secao-header">
       <p class="secao-numero">01 — Boas-vindas</p>
@@ -321,8 +294,7 @@
 
   <div class="divisor"><span>···</span></div>
 
-  <!-- 02 — ACESSO
-       Login + Sign In = 2 telas -->
+  <!-- 02 — ACESSO -->
   <section class="secao" id="acesso">
     <div class="secao-header">
       <p class="secao-numero">02 — Acesso</p>
@@ -331,9 +303,9 @@
     </div>
     <div class="glass-card">
       <div id="c2" class="carousel slide" data-bs-ride="false">
+        <!-- CORRIGIDO: removido o segundo indicador — só há 1 slide -->
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#c2" data-bs-slide-to="0" class="active"></button>
-          <button type="button" data-bs-target="#c2" data-bs-slide-to="1"></button>
         </div>
         <div class="carousel-inner pb-5">
           <div class="carousel-item active">
@@ -351,13 +323,12 @@
 
   <div class="divisor"><span>···</span></div>
 
-  <!--  03 — HOME
-       Home + Place Details + Country = 3 telas -->
+  <!--  03 — HOME -->
   <section class="secao" id="home">
     <div class="secao-header">
       <p class="secao-numero">03 — Home</p>
       <h2 class="secao-titulo">Explore destinos</h2>
-      <p class="secao-desc">Barra de navegação escrito “Qual seu destino?” leva á criação de um roteiro de viagem destinos populares, ao clicar uma página de referência.</p>
+      <p class="secao-desc">Barra de navegação escrito "Qual seu destino?" leva á criação de um roteiro de viagem destinos populares, ao clicar uma página de referência.</p>
     </div>
     <div class="glass-card">
       <div id="c3" class="carousel slide" data-bs-ride="false">
@@ -381,78 +352,66 @@
 
   <div class="divisor"><span>···</span></div>
 
-  <!-- 04 — MINHAS VIAGENS
-       11 telas divididas em 4 slides
-       Slide 1: viagens1, viagens2, viagens3
-       Slide 2: itin1, itin2, itin3
-       Slide 3: itin4, itin5, itin6
-       Slide 4: itin7, itin8, itin9 (+ minhasviagens2 e 3 no ultimo) -->
- <section class="secao" id="minhasviagens">
-  <div class="secao-header">
-    <p class="secao-numero">04 — Minhas viagens</p>
-    <h2 class="secao-titulo">Monte seu itinerário</h2>
-    <p class="secao-desc">Passo a passo para criar uma viagem: destino, datas, participantes e atividades. Onde toda a viagem será planejada, destino, duração, intenção no destino(seus interesses), moeda para conversão, limite de gasto e uma estimativa do total. Será possivel mudar o nome, foto e todas as informações posteriormente se necessário.
+  <!-- 04 — MINHAS VIAGENS -->
+  <section class="secao" id="minhasviagens">
+    <div class="secao-header">
+      <p class="secao-numero">04 — Minhas viagens</p>
+      <h2 class="secao-titulo">Monte seu itinerário</h2>
+      <p class="secao-desc">Passo a passo para criar uma viagem: destino, datas, participantes e atividades. Onde toda a viagem será planejada, destino, duração, intenção no destino(seus interesses), moeda para conversão, limite de gasto e uma estimativa do total. Será possivel mudar o nome, foto e todas as informações posteriormente se necessário.
 No final será gerado um código para compartilhar com os amigos que irão na viagem, ele poderá ser feito por IA(automaticamente) ou manualmente.</p>
-  </div>
-  <div class="glass-card">
-    <div id="c4" class="carousel slide" data-bs-ride="false">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#c4" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#c4" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#c4" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#c4" data-bs-slide-to="3"></button>
-      </div>
-      <div class="carousel-inner pb-5">
-
-        <div class="carousel-item active">
-          <div class="tela-frame">
-            <div class="tela-item"><img src="img/minhasviagens.png" alt="Minhas Viagens 1"></div>
-            <div class="tela-item destaque"><img src="img/travelitinerary.png" alt="Itinerário 1"></div>
-            <div class="tela-item"><img src="img/travelitinerary2.png" alt="Itinerário 2"></div>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <div class="tela-frame">
-            <div class="tela-item"><img src="img/travelitinerary3.png" alt="Itinerário 3"></div>
-            <div class="tela-item destaque"><img src="img/travelitinerary4.png" alt="Itinerário 4"></div>
-            <div class="tela-item"><img src="img/travelitinerary5.png" alt="Itinerário 5"></div>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <div class="tela-frame">
-            <div class="tela-item"><img src="img/travelitinerary6.png" alt="Itinerário 6"></div>
-            <div class="tela-item destaque"><img src="img/travelitinerary7.png" alt="Itinerário 7"></div>
-            <div class="tela-item"><img src="img/travelitinerary8.png" alt="Itinerário 8"></div>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <div class="tela-frame">
-            <div class="tela-item"><img src="img/minhasviagens2.png" alt="Minhas Viagens 2"></div>
-                <div class="tela-item destaque"><img src="img/minhasviagens3.png" alt="Itinerário 9"></div>
-            </div>
-        </div>
-
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#c4" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
-      <button class="carousel-control-next" type="button" data-bs-target="#c4" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
     </div>
-  </div>
-</section>
-  <!-- 
-       05 — DESPESAS
-       Despesas 1, 2, 3, 4 = 4 telas
-       Slide 1: despesas1, despesas2, despesas3
-       Slide 2: despesas4
-     -->
+    <div class="glass-card">
+      <div id="c4" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#c4" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#c4" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#c4" data-bs-slide-to="2"></button>
+          <button type="button" data-bs-target="#c4" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner pb-5">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/minhasviagens.png" alt="Minhas Viagens 1"></div>
+              <div class="tela-item destaque"><img src="img/travelitinerary.png" alt="Itinerário 1"></div>
+              <div class="tela-item"><img src="img/travelitinerary2.png" alt="Itinerário 2"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/travelitinerary3.png" alt="Itinerário 3"></div>
+              <div class="tela-item destaque"><img src="img/travelitinerary4.png" alt="Itinerário 4"></div>
+              <div class="tela-item"><img src="img/travelitinerary5.png" alt="Itinerário 5"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/travelitinerary6.png" alt="Itinerário 6"></div>
+              <div class="tela-item destaque"><img src="img/travelitinerary7.png" alt="Itinerário 7"></div>
+              <div class="tela-item"><img src="img/travelitinerary8.png" alt="Itinerário 8"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/minhasviagens2.png" alt="Minhas Viagens 2"></div>
+              <div class="tela-item destaque"><img src="img/minhasviagens3.png" alt="Itinerário 9"></div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#c4" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c4" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divisor"><span>···</span></div>
+
+  <!-- 05 — DESPESAS -->
   <section class="secao" id="despesas">
     <div class="secao-header">
       <p class="secao-numero">05 — Despesas</p>
       <h2 class="secao-titulo">Gastos sem surpresa</h2>
       <p class="secao-desc">Divida os custos da viagem com o grupo de forma simples e transparente.
-        Onde os gastos serão adicionados , divididos e calculados. Haverá um grafico dividido por categorias (cores diferentes) e a possibilidade de escolher se será dividido entre todos ou só algumas pessoas especificas.
+        Onde os gastos serão adicionados, divididos e calculados. Haverá um grafico dividido por categorias (cores diferentes) e a possibilidade de escolher se será dividido entre todos ou só algumas pessoas especificas.
       </p>
     </div>
     <div class="glass-card">
@@ -483,7 +442,7 @@ No final será gerado um código para compartilhar com os amigos que irão na vi
 
   <div class="divisor"><span>···</span></div>
 
-  <!-- 06 — PERFIL 1 tela -->
+  <!-- 06 — PERFIL -->
   <section class="secao" id="perfil">
     <div class="secao-header">
       <p class="secao-numero">06 — Perfil</p>
@@ -504,21 +463,18 @@ No final será gerado um código para compartilhar com os amigos que irão na vi
   </section>
 
   <footer>
-  <div style="max-width:900px; margin:0 auto; padding:2rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--glass-border);">
-    
-    <div>
-      <p style="font-size:0.75rem; color:var(--text-subtle); margin-bottom:6px; letter-spacing:0.08em;">2TW — Axis</p>
+    <div style="max-width:900px; margin:0 auto; padding:2rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--glass-border);">
+      <div>
+        <p style="font-size:0.75rem; color:var(--text-subtle); margin-bottom:6px; letter-spacing:0.08em;">2TW — Axis</p>
+      </div>
+      <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
+        <span style="font-size:0.75rem; color:var(--text-subtle);">Julia Bandeira</span>
+        <span style="font-size:0.75rem; color:var(--text-subtle);">Laura Marques</span>
+        <span style="font-size:0.75rem; color:var(--text-subtle);">Laila Camile</span>
+        <span style="font-size:0.75rem; color:var(--text-subtle);">Kyara Murayama</span>
+      </div>
     </div>
-
-    <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
-      <span style="font-size:0.75rem; color:var(--text-subtle);">Julia Bandeira</span>
-      <span style="font-size:0.75rem; color:var(--text-subtle);">Laura Marques</span>
-      <span style="font-size:0.75rem; color:var(--text-subtle);">Laila Camile</span>
-      <span style="font-size:0.75rem; color:var(--text-subtle);">Kyara Murayama</span>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
