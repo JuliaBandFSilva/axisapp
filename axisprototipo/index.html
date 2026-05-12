@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>α — Protótipo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1a1c;
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-strong: rgba(255,255,255,0.10);
+      --text-primary: #f0efec;
+      --text-muted: rgba(240,239,236,0.45);
+      --text-subtle: rgba(240,239,236,0.22);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; top: -20%; left: -10%;
+      width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(180,180,200,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; bottom: -10%; right: -10%;
+      width: 50vw; height: 50vw;
+      background: radial-gradient(circle, rgba(160,160,180,0.05) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(26,26,28,0.85);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1rem 2rem;
+    }
+    .nav-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem; color: var(--text-primary); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-toggle {
+      display: none; background: none;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px; padding: 6px 10px;
+      cursor: pointer; color: var(--text-muted); font-size: 1.1rem;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center; padding: 7rem 1.5rem 4rem;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.18); border-radius: 99px;
+      padding: 5px 16px; margin-bottom: 2rem;
+      backdrop-filter: blur(8px); background: var(--glass-bg);
+    }
+    .hero-tag::before {
+      content: ''; width: 5px; height: 5px;
+      border-radius: 50%; background: rgba(255,255,255,0.4);
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 400; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 em { font-style: italic; color: rgba(240,239,236,0.5); }
+    .hero p {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 420px; margin: 0 auto; line-height: 1.75;
+    }
+
+    /* DIVISOR */
+    .divisor {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 1rem;
+      max-width: 900px; margin: 0 auto 4rem; padding: 0 1.5rem;
+    }
+    .divisor::before, .divisor::after {
+      content: ''; flex: 1; height: 1px; background: var(--glass-border);
+    }
+    .divisor span { font-size: 0.65rem; color: var(--text-subtle); }
+
+    /* SEÇÃO */
+    .secao {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto 6rem; padding: 0 1.5rem;
+    }
+    .secao-header { margin-bottom: 1.8rem; }
+    .secao-numero {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-subtle); margin-bottom: 0.5rem;
+    }
+    .secao-titulo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem; font-weight: 400; margin-bottom: 0.5rem;
+    }
+    .secao-desc {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.75; max-width: 440px;
+    }
+
+    /* GLASS CARD */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 2rem 1.5rem 2.5rem;
+      position: relative;
+    }
+    .glass-card::before {
+      content: '';
+      position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    }
+
+    /* TELAS */
+    .tela-frame {
+      display: flex; justify-content: center; align-items: flex-end;
+      gap: 1rem; flex-wrap: wrap; min-height: 220px;
+    }
+    .tela-item {
+      width: 110px; aspect-ratio: 9/19;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s ease, border-color 0.3s;
+    }
+    .tela-item:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .tela-item.destaque { width: 130px; transform: translateY(-10px); }
+    .tela-item.destaque:hover { transform: translateY(-16px) scale(1.02); }
+    .tela-item img { width: 100%; height: 100%; object-fit: cover; }
+    .tela-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; color: var(--text-subtle);
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase; text-align: center; padding: 8px;
+    }
+    .tela-placeholder svg { opacity: 0.25; }
+
+    /* CONTROLES */
+    .carousel-control-prev, .carousel-control-next {
+      width: 38px; height: 38px;
+      background: var(--glass-strong);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px); border-radius: 50%;
+      top: auto; bottom: -50px; opacity: 1; transition: background 0.2s;
+    }
+    .carousel-control-prev { left: calc(50% - 52px); }
+    .carousel-control-next { right: calc(50% - 52px); }
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover { background: rgba(255,255,255,0.14); }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon { width: 13px; height: 13px; }
+    .carousel-indicators { bottom: -44px; }
+    .carousel-indicators [data-bs-target] {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--text-subtle); border: none; opacity: 1;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-indicators .active { background: var(--text-primary); transform: scale(1.3); }
+
+    /* RODAPÉ */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--glass-border);
+      padding: 2.5rem; text-align: center;
+      font-size: 0.75rem; color: var(--text-subtle); letter-spacing: 0.06em;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 640px) {
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; flex-direction: column; gap: 0;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(26,26,28,0.97);
+        border-bottom: 1px solid var(--glass-border);
+        padding: 1rem 2rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      .tela-item { width: 80px; }
+      .tela-item.destaque { width: 96px; }
+    }
+   
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  .logo-img {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    display: block;
+    object-fit: contain;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .nav-logo:hover {
+    opacity: 0.8;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    margin-left: 20px;
+  }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <img src="img/logoaxis.png" alt="AXIS Logo" class="logo-img">
+    </a> 
+
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+      <div class="nav-links">
+        <a href="#boasvindas">Boas-vindas</a>
+        <a href="#acesso">Acesso</a>
+        <a href="#home">Home</a>
+        <a href="#minhasviagens">Minhas viagens</a>
+        <a href="#despesas">Despesas</a>
+        <a href="#perfil">Perfil</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">Protótipo do aplicativo</div>
+    <h1>Planeje viagens<br><em>com quem importa</em></h1>
+    <p>Veja cada tela do app, do primeiro acesso à divisão de gastos com o grupo.</p>
+  </section>
+
+  <!--  01 — BOAS-VINDAS
+       Splash + Welcome 1 ao 5 = 6 telas
+       Slide 1: Splash, Welcome 1, Welcome 2
+       Slide 2: Welcome 3, Welcome 4, Welcome 5  -->
+  <section class="secao" id="boasvindas">
+    <div class="secao-header">
+      <p class="secao-numero">01 — Boas-vindas</p>
+      <h2 class="secao-titulo">Primeiros passos</h2>
+      <p class="secao-desc">Tela Splash aparece o nome e logo do app e Telas de Boas-vindas contém apresentação do app, imagens e frases breves.</p>
+    </div>
+    <div class="glass-card">
+      <div id="c1" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#c1" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#c1" data-bs-slide-to="1"></button>
+        </div>
+        <div class="carousel-inner pb-5">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/splash.png" alt="Splash"></div>
+              <div class="tela-item destaque"><img src="img/welcome.png" alt="Welcome 1"></div>
+              <div class="tela-item"><img src="img/welcome2.png" alt="Welcome 2"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/welcome3.png" alt="Welcome 3"></div>
+              <div class="tela-item destaque"><img src="img/welcome4.png" alt="Welcome 4"></div>
+              <div class="tela-item"><img src="img/welcome5.png" alt="Welcome 5"></div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#c1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divisor"><span>···</span></div>
+
+  <!-- 02 — ACESSO
+       Login + Sign In = 2 telas -->
+  <section class="secao" id="acesso">
+    <div class="secao-header">
+      <p class="secao-numero">02 — Acesso</p>
+      <h2 class="secao-titulo">Login e cadastro</h2>
+      <p class="secao-desc">Possibilidade de criar uma conta nova(email ou icloud, nome/sobrenome, definir uma senha, sexo e data de nascimento) ou entrar em uma existente(nome de usuário/email e senha). E selecionar o  idioma de preferência.</p>
+    </div>
+    <div class="glass-card">
+      <div id="c2" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#c2" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#c2" data-bs-slide-to="1"></button>
+        </div>
+        <div class="carousel-inner pb-5">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/login.png" alt="Login"></div>
+              <div class="tela-item destaque"><img src="img/login2.png" alt="Sign In"></div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#c2" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c2" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divisor"><span>···</span></div>
+
+  <!--  03 — HOME
+       Home + Place Details + Country = 3 telas -->
+  <section class="secao" id="home">
+    <div class="secao-header">
+      <p class="secao-numero">03 — Home</p>
+      <h2 class="secao-titulo">Explore destinos</h2>
+      <p class="secao-desc">Barra de navegação escrito “Qual seu destino?” leva á criação de um roteiro de viagem destinos populares, ao clicar uma página de referência.</p>
+    </div>
+    <div class="glass-card">
+      <div id="c3" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#c3" data-bs-slide-to="0" class="active"></button>
+        </div>
+        <div class="carousel-inner pb-5">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/home.png" alt="Home"></div>
+              <div class="tela-item destaque"><img src="img/placedetails.png" alt="Place Details"></div>
+              <div class="tela-item"><img src="img/countrydetails.png" alt="Country"></div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#c3" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c3" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divisor"><span>···</span></div>
+
+  <!-- 04 — MINHAS VIAGENS
+       11 telas divididas em 4 slides
+       Slide 1: viagens1, viagens2, viagens3
+       Slide 2: itin1, itin2, itin3
+       Slide 3: itin4, itin5, itin6
+       Slide 4: itin7, itin8, itin9 (+ minhasviagens2 e 3 no ultimo) -->
+ <section class="secao" id="minhasviagens">
+  <div class="secao-header">
+    <p class="secao-numero">04 — Minhas viagens</p>
+    <h2 class="secao-titulo">Monte seu itinerário</h2>
+    <p class="secao-desc">Passo a passo para criar uma viagem: destino, datas, participantes e atividades. Onde toda a viagem será planejada, destino, duração, intenção no destino(seus interesses), moeda para conversão, limite de gasto e uma estimativa do total. Será possivel mudar o nome, foto e todas as informações posteriormente se necessário.
+No final será gerado um código para compartilhar com os amigos que irão na viagem, ele poderá ser feito por IA(automaticamente) ou manualmente.</p>
+  </div>
+  <div class="glass-card">
+    <div id="c4" class="carousel slide" data-bs-ride="false">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#c4" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#c4" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#c4" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#c4" data-bs-slide-to="3"></button>
+      </div>
+      <div class="carousel-inner pb-5">
+
+        <div class="carousel-item active">
+          <div class="tela-frame">
+            <div class="tela-item"><img src="img/minhasviagens.png" alt="Minhas Viagens 1"></div>
+            <div class="tela-item destaque"><img src="img/travelitinerary.png" alt="Itinerário 1"></div>
+            <div class="tela-item"><img src="img/travelitinerary2.png" alt="Itinerário 2"></div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="tela-frame">
+            <div class="tela-item"><img src="img/travelitinerary3.png" alt="Itinerário 3"></div>
+            <div class="tela-item destaque"><img src="img/travelitinerary4.png" alt="Itinerário 4"></div>
+            <div class="tela-item"><img src="img/travelitinerary5.png" alt="Itinerário 5"></div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="tela-frame">
+            <div class="tela-item"><img src="img/travelitinerary6.png" alt="Itinerário 6"></div>
+            <div class="tela-item destaque"><img src="img/travelitinerary7.png" alt="Itinerário 7"></div>
+            <div class="tela-item"><img src="img/travelitinerary8.png" alt="Itinerário 8"></div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="tela-frame">
+            <div class="tela-item"><img src="img/minhasviagens2.png" alt="Minhas Viagens 2"></div>
+                <div class="tela-item destaque"><img src="img/minhasviagens3.png" alt="Itinerário 9"></div>
+            </div>
+        </div>
+
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#c4" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+      <button class="carousel-control-next" type="button" data-bs-target="#c4" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+    </div>
+  </div>
+</section>
+  <!-- 
+       05 — DESPESAS
+       Despesas 1, 2, 3, 4 = 4 telas
+       Slide 1: despesas1, despesas2, despesas3
+       Slide 2: despesas4
+     -->
+  <section class="secao" id="despesas">
+    <div class="secao-header">
+      <p class="secao-numero">05 — Despesas</p>
+      <h2 class="secao-titulo">Gastos sem surpresa</h2>
+      <p class="secao-desc">Divida os custos da viagem com o grupo de forma simples e transparente.
+        Onde os gastos serão adicionados , divididos e calculados. Haverá um grafico dividido por categorias (cores diferentes) e a possibilidade de escolher se será dividido entre todos ou só algumas pessoas especificas.
+      </p>
+    </div>
+    <div class="glass-card">
+      <div id="c5" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#c5" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#c5" data-bs-slide-to="1"></button>
+        </div>
+        <div class="carousel-inner" style="padding-bottom: 3.5rem;">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item"><img src="img/despesas.png" alt="Despesas 1"></div>
+              <div class="tela-item destaque"><img src="img/destinos2.png" alt="Despesas 2"></div>
+              <div class="tela-item"><img src="img/despesas3.png" alt="Despesas 3"></div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="tela-frame">
+              <div class="tela-item destaque"><img src="img/despesas4.png" alt="Despesas 4"></div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#c5" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c5" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="divisor"><span>···</span></div>
+
+  <!-- 06 — PERFIL 1 tela -->
+  <section class="secao" id="perfil">
+    <div class="secao-header">
+      <p class="secao-numero">06 — Perfil</p>
+      <h2 class="secao-titulo">Sua conta</h2>
+      <p class="secao-desc">Informações da conta, configurações como ativar as notificações, modo claro ou escuro, manual de ajuda e editar foto e nome do usuário e a visualização da quantidade de viagens feitas.</p>
+    </div>
+    <div class="glass-card">
+      <div id="c6" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-inner pb-5">
+          <div class="carousel-item active">
+            <div class="tela-frame">
+              <div class="tela-item destaque"><img src="img/perfil.png" alt="Perfil"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+  <div style="max-width:900px; margin:0 auto; padding:2rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--glass-border);">
+    
+    <div>
+      <p style="font-size:0.75rem; color:var(--text-subtle); margin-bottom:6px; letter-spacing:0.08em;">2TW — Axis</p>
+    </div>
+
+    <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
+      <span style="font-size:0.75rem; color:var(--text-subtle);">Julia Bandeira</span>
+      <span style="font-size:0.75rem; color:var(--text-subtle);">Laura Marques</span>
+      <span style="font-size:0.75rem; color:var(--text-subtle);">Laila Camile</span>
+      <span style="font-size:0.75rem; color:var(--text-subtle);">Kyara Murayama</span>
+    </div>
+
+  </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
